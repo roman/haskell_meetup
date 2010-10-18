@@ -1,0 +1,6 @@
+This repo contains Slides developed for the Vancouver's Haskell Meetup
+
+Most of them will be Literate Haskell files with LaTeX syntax, so they are both
+compileable in GHC and LaTeX.
+
+
