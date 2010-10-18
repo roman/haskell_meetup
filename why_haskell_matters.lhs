@@ -49,10 +49,10 @@ import Prelude hiding ((.), Maybe(..), zipWith, iterate, map, concat, foldr, hea
 \begin{itemize}[label=\color{blue}{$\rightarrow$}, itemsep=2em]
   \item If you are a experienced developer that wants to grow professionally
         by learning completely new and different approaches to solve problems
-  \item If you need to build systems where correctenes is \textbf{critical} (Banks, Safety-Critical Systems)
+  \item If you need to build systems where correctness is \textbf{critical} (Banks, Safety-Critical Systems)
   \item Is well suited to implement Domain Specific Languages, so it could work very well 
         in systems programming
-  \item as Erlang, it is easy to implement parallalel and concurrent programs safely due to 
+  \item as Erlang, it is easy to implement parallel and concurrent programs safely due to 
         the pureness of the language
 \end{itemize}
 \end{frame}
@@ -78,8 +78,8 @@ import Prelude hiding ((.), Maybe(..), zipWith, iterate, map, concat, foldr, hea
         but by default functions are \textbf{pure} (non-side effect).
   \item Management of resources is abstracted completely from the developer 
         (GC and automatic allocation of data included)
-  \item Strong type system makes correctness happen, and most of the this system won't get
-        on the way due to the compiler's type inference system
+  \item Strong typing makes correctness happen, and most of the the issues regarding this type systems 
+        won't get on the way due to the compiler's type inference system
 \end{itemize}
 \end{frame}
 
@@ -185,8 +185,8 @@ isNotZero' = (0 /=)
 
 \begin{frame}[containsverbatim]
   \frametitle{High Order Functions}
-  \framesubtitle{Functions that recieve functions as parameters}
-Functions can also recieve functions as parameters:
+  \framesubtitle{Functions that receive functions as parameters}
+Functions can also receive functions as parameters:
 \begin{code} % code not be evaluated by haskell
 filter :: (a -> Bool) -> [a] -> [a]
 filter fn (x:xs)
@@ -250,12 +250,13 @@ foldr fn zero [] = zero
 foldr fn zero (x:xs) = fn x (foldr fn zero xs)
 
 {-
-- [] is replaced by 0
-- cons is replaced by the (+) function
-
 foldr (+) 0 [3,2,5]
+
+- [] is replaced by 0
+- (:) function is replaced by the (+) function
+
 -> 3 : (2 : (5 : []))
--> 3 + (2 + (5 + (0)))
+-> 3 + (2 + (5 +  0))
 -}
 \end{code}
 \end{frame}
@@ -311,7 +312,7 @@ to create new ones:
 map :: (a -> b) -> [a] -> [b]
 map fn = foldr ((:) . fn) []
 -- (x:xs) == (:) x xs 
--- (:) . fn -> (fn x : xs)
+-- (:) . fn = \x -> (:) fn x
 \end{code}
 \end{frame}
 
@@ -404,7 +405,7 @@ binaryToDecimal = sum . zipWith (*) bitValues
     \item It's unpopular, mostly related to the first and second point 
     \item It's risky (for employers), there are not many Haskell developers to count on,
           of course this is mostly related to the first, second and third point
-    \item Librares are broad, but there is no depth (Many incompatible 
+    \item Libraries are broad, but there is no depth (Many incompatible 
           experimental libraries that do the same thing)
   \end{itemize}
 
