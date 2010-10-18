@@ -1,0 +1,9 @@
+*.log
+*.nav
+*.aux
+*.out
+*.pdf
+*.snm
+*.toc
+*.vrb
+*.swp
