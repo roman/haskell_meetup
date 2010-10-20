@@ -210,7 +210,7 @@ removeZeros = filter isNotZero
     \item An \textit{empty} value: \verb+[]+
     \item A \textit{cons} value: 
       Item on the left and list on the right, the whole thing being a new list
-      \verb+(1:(2:(3:[]))) == (1:2:3:[]) == [1,2,3]+
+      \verb+[1,2,3] == (1:2:3:[]) == (1:(2:(3:[])))+
   \end{itemize}
   \vfill
   So we have two basic functions to get the two components of a \textit{cons}:
@@ -324,6 +324,8 @@ evaluate expressions only one needed.
 \begin{code}
 iterate :: (a -> a) -> a -> [a]
 iterate fn a = (a : iterate fn (fn a))
+
+-- [a, fn a, fn (fn a), fn (fn (fn a))), ...]
 \end{code}
 This will do an infinite recursion, it will stop when algorithms
 do not require more values from the infinite lists
@@ -371,7 +373,7 @@ type Bit = Int
 
 nextBit :: Int -> Maybe (Bit, Int)
 nextBit x 
-  | d > 0 = Just (m, d)
+  | x > 0 = Just (m, d)
   | otherwise = Nothing
   where
     d = x `div` 2
