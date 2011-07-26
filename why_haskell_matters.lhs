@@ -44,6 +44,8 @@ module Quicky where
   \end{itemize}
 \end{frame}
 
+% We are going to explain the concept of purity, we are not going to give
+% any examples of pure and non-pure code given the time constraints.
 \begin{frame}
   \frametitle{Purity}
 
@@ -52,7 +54,8 @@ module Quicky where
   effects.\\[2\baselineskip]
 
   When using pure functions you can only use in the body of the function the 
-  given input parameters, and they always return a value.
+  given input parameters, and they always must return a value.
+
   \vfill
 
   \footnotesize{* Functions that are not pure, can be easily 
@@ -60,6 +63,9 @@ module Quicky where
 
 \end{frame}
 
+% We wont be explaining the benefits of staticaly typed languages
+% this is something that is not only available on functional programming
+% languages
 \begin{frame}
   \frametitle{Statically Typed}
 
@@ -72,10 +78,17 @@ module Quicky where
 \begin{frame}
   \frametitle{Lazy}
 
-  Haskell has lazy evaluation by default, you can get very powerful stuff like
-  infinite structures pretty easily, yet also dangerous given the propensity
-  of memory leaks.
+  Haskell has lazy evaluation by default, you can get very powerful stuff like:
+  \begin{itemize}
+    \item Infinite Data Structures 
+    \item Execution of statements only when really need it
+  \end{itemize}
 
+  However there are some woes:
+  \begin{itemize}
+    \item Difficult to know real code performance
+    \item Memory can't get filled up with promises of execution when
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -227,8 +240,8 @@ module Quicky where
   \begin{center}
   \Huge{Thank You!} \\[2cm]
   \normalsize{Get started at learnyouahaskell.com and realworldhaskell.org/book}\\
-  \small{Meetup: Haskell Meetup}\\
-  \small{Twitter: @vanhask}
+  \small{Meetup: @vanhask}\\
+  \small{Personal: @romanandreg}
   \end{center}
 \end{frame}
 
