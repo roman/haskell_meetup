@@ -14,24 +14,24 @@
 \input{listings_config}
 \input{beamer_config}
 
-\ignore{
-\begin{code}
-module Quicky where
-
-\end{code}}
-
 \title{Haskell Quicky}
 \author{Roman Gonzalez}
 \institute{Vancouver Haskell Meetup}
 
 \begin{document}
 
+\ignore{\begin{code}
+module Quicky where
+
+\end{code}}
+
+
 \begin{frame}
 \titlepage
 \end{frame}
 
 \begin{frame}
-  \frametitle{You can't get more functional than this...}
+  \frametitle{You can't get more functional than this \ldots}
 
   \begin{quotation}
     Haskell is a \emph{pure}, \emph{statically typed}, \emph{lazy}
@@ -75,6 +75,8 @@ module Quicky where
 
 \end{frame}
 
+% We are going to explain the concept of lazyness, but we won't give
+% any example given time constraints
 \begin{frame}
   \frametitle{Lazy}
 
@@ -91,9 +93,11 @@ module Quicky where
   \end{itemize}
 \end{frame}
 
+% From now on, is just functions and code, we explain how 
+% to call simple functions in Haskell, also how they behave
 \begin{frame}[fragile]
   \frametitle{Simple Function}
-  \begin{code}%ignore code
+\begin{code}%ignore code
     elem :: Char -> String -> Bool
 
     'e' `elem` "Hello" 
@@ -102,27 +106,29 @@ module Quicky where
     'b' `elem` "Hello"
     --> False
 
-  \end{code}
+\end{code}
 \end{frame}
 
+% We implement a function using the elem function shown before
 \begin{frame}[fragile]
   \frametitle{Simple Function Implementation}
-  \begin{code}
-  isVocal :: Char -> Bool
-  isVocal c = c `elem` "aeiou"
-  \end{code}
-  \begin{code}%ignore code
-  isVocal 'a'
+\begin{code}
+  isVowel :: Char -> Bool
+  isVowel c = c `elem` "aeiou"
+\end{code}
+\begin{code}%ignore code
+  isVowel 'a'
   --> True
   
-  isVocal 'b'
+  isVowel 'b'
   --> False
-  \end{code}
+\end{code}
 \end{frame}
 
+% We re-implement the function just using partial evaluation
 \begin{frame}[fragile]
   \frametitle{Partial Evaluation}
-  \begin{code}%ignore code
+\begin{code}%ignore code
   (`elem` "aeiou") :: Char -> Bool
 
   (`elem` "aeiou") 'a'
@@ -131,14 +137,16 @@ module Quicky where
   (`elem` "aeiou") 'x'
   --> False
 
-  isVocal :: Char -> Bool
-  isVocal = (`elem` "aeiou")
-  \end{code}
+  isVowel :: Char -> Bool
+  isVowel = (`elem` "aeiou")
+\end{code}
 \end{frame}
 
+% We implement another function using the same function but with
+% different partial evaluation
 \begin{frame}[fragile]
   \frametitle{Partial Evaluation II} 
-  \begin{code}
+\begin{code}%ignore code
   ('a' `elem`) :: String -> Bool
 
   ('a' `elem`) "Contains"
@@ -149,82 +157,87 @@ module Quicky where
 
   containsA :: String -> Bool
   containsA = ('a' `elem`)
-  \end{code}
+\end{code}
 \end{frame}
 
+% We implement another simple function that is using the not
 \begin{frame}[fragile]
   \frametitle{Simple Function Implementation II}
-  \begin{code}
-  isNotVocal :: Char -> Bool
-  isNotVocal c = not (isVocal c)
-  \end{code}
+\begin{code}
+  isNotVowel :: Char -> Bool
+  isNotVowel c = not (isVowel c)
+\end{code}
 \end{frame}
 
+% We re-implement the same function using function composition, also
+% we explain function composition definition
 \begin{frame}[fragile]
   \frametitle{Function Composition}
-  \begin{code}%ignore code
+\begin{code}%ignore code
   f . g = \c -> f (g c)
-  
-  isNotVocal :: Char -> Bool
-  isNotVocal = not . isVocal
-  -- the same as (\c -> not (isVocal c))
-  \end{code}
+
+  isNotVowel :: Char -> Bool
+  isNotVowel = not . isVowel
+  -- the same as (\c -> not (isVowel c))
+\end{code}
 \end{frame}
 
+% First version of removeVowels
 \begin{frame}[fragile]
-  \frametitle{removeVocals (1)}
-  \begin{code}
-    removeVocals :: String -> String
-    removeVocals str = filter isNotVocal str
+  \frametitle{removeVowels (1)}
+\begin{code}
+  removeVowels :: String -> String
+  removeVowels str = filter isNotVowel str
 
-  \end{code}
-  \begin{code}%ignore code
-    removeVocals "remove"
-    --> "rmv"
-  \end{code}
+\end{code}
+\begin{code}%ignore code
+  removeVowels "remove"
+  --> "rmv"
+\end{code}
 \end{frame}
 
+% We start to de-sugar all the code
 \begin{frame}[fragile]
-  \frametitle{removeVocals (2)}
-  filter isNotVocal has already a type of \texttt{String -> String}, let's
+  \frametitle{removeVowels (2)}
+  \texttt{filter isNotVowel} has already a type of \texttt{String -> String}, let's
   drop the input parameter all together.\\[2\baselineskip]
-  \begin{code}%ignore code
-    removeVocals :: String -> String
-    removeVocals = filter isNotVocal
-  \end{code}
+\begin{code}%ignore code
+    removeVowels :: String -> String
+    removeVowels = filter isNotVowel
+\end{code}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{removeVocals (3)}
-  \texttt{isNotVocal} is a pretty small function that is going to be used
+  \frametitle{removeVowels (3)}
+  \texttt{isNotVowel} is a pretty small function that is going to be used
   only once, drop the function declaration and just put the implementation
   on the filter function parameter.\\[2\baselineskip]
 
-  \begin{code}%ignore code
-    removeVocals :: String -> String
-    removeVocals = filter (not . isVocal)
-  \end{code}
+\begin{code}%ignore code
+    removeVowels :: String -> String
+    removeVowels = filter (not . isVowel)
+\end{code}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{removeVocals (4)}
-  \texttt{isVocal} is yet another small function that is going to be used
+  \frametitle{removeVowels (4)}
+  \texttt{isVowel} is yet another small function that is going to be used
   only once, drop the function declaration and just put the 
   implementation.\\[2\baselineskip]
 
-  \begin{code}%ignore code
-    removeVocals :: String -> String
-    removeVocals = filter (not . (`elem` "aeiou"))
-  \end{code}
+\begin{code}%ignore code
+    removeVowels :: String -> String
+    removeVowels = filter (not . (`elem` "aeiou"))
+\end{code}
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{removeVocals (5)}
-  \begin{code}%ignore code
-    removeVocals str = filter isNotVocal str
-    removeVocals = filter (not . isVocal)
-    removeVocals = filter (not . (`elem` "aeiou"))
-  \end{code}
+  \frametitle{removeVowels (5)}
+\begin{code}%ignore code
+    removeVowels str = filter isNotVowel str
+    removeVowels = filter (not . isVowel)
+    removeVowels = filter (not . (`elem` "aeiou"))
+\end{code}
 \end{frame}
 
 \begin{frame}
