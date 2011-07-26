@@ -40,7 +40,7 @@ module Quicky where
   \vfill
   \begin{itemize}[label=\color{blue}{$\rightarrow$}, itemsep=2em]
     \item Name inspired by mathematician Haskell Brooks Curry
-    \item Based on a more primitive language called \textit{Lambda Calculus}
+    \item Based on a formal system called \textit{Lambda Calculus}
   \end{itemize}
 \end{frame}
 
@@ -53,8 +53,8 @@ module Quicky where
   will throw an error whenever you try to make a pure function do side 
   effects.\\[2\baselineskip]
 
-  When using pure functions you can only use in the body of the function the 
-  given input parameters, and they always must return a value.
+  When using pure functions you can only use the given input parameters in the 
+  function's budy, also they always should return a meaningful value.
 
   \vfill
 
@@ -83,13 +83,13 @@ module Quicky where
   Haskell has lazy evaluation by default, you can get very powerful stuff like:
   \begin{itemize}
     \item Infinite Data Structures 
-    \item Execution of statements only when really need it
+    \item Execution of statements only when really need it \\[1cm]
   \end{itemize}
 
   However there are some woes:
   \begin{itemize}
     \item Difficult to know real code performance
-    \item Memory can't get filled up with promises of execution when
+    \item Memory can easily get filled with promises of execution
   \end{itemize}
 \end{frame}
 
@@ -199,8 +199,8 @@ module Quicky where
 % We start to de-sugar all the code
 \begin{frame}[fragile]
   \frametitle{removeVowels (2)}
-  \texttt{filter isNotVowel} has already a type of \texttt{String -> String}, let's
-  drop the input parameter all together.\\[2\baselineskip]
+  \texttt{filter isNotVowel} has already a type of \texttt{String -> String}, 
+  let's drop the input parameter all together.\\[2\baselineskip]
 \begin{code}%ignore code
     removeVowels :: String -> String
     removeVowels = filter isNotVowel
@@ -235,6 +235,7 @@ module Quicky where
   \frametitle{removeVowels (5)}
 \begin{code}%ignore code
     removeVowels str = filter isNotVowel str
+    removeVowels = filter isNotVowel 
     removeVowels = filter (not . isVowel)
     removeVowels = filter (not . (`elem` "aeiou"))
 \end{code}
